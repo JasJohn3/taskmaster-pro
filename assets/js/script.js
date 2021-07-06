@@ -56,21 +56,33 @@ $(".list-group").on("click", "p", function() {
 
 });
 $(".list-group").on('blur','textarea',function (){
-  // Get the text current value/text
-  var text = $(this).val().trim();
+  // get the textarea's current value/text
+  var text = $(this)
+    .val()
+    .trim();
 
-  // get the parents ul's id attribute
+  // get the parent ul's id attribute
   var status = $(this)
-  .closest(".list-group")
-  .attr('id')
-  .replace("list-", " ");
+    .closest(".list-group")
+    .attr("id")
+    .replace("list-", "");
 
-  // get the task's posintion in the list of other li elements
+  // get the task's position in the list of other li elements
   var index = $(this)
-  .closest(".list-group-item")
-  .index();
-  tasks[status][index].text = text;
+    .closest(".list-group-item")
+    .index();
+
+  var taskStatus = tasks[status];
+  taskStatus[index].text = text;
   saveTasks();
+  // create a p element
+  var taskP = $("<p>")
+  .addClass('m-1')
+  .text(text);
+  //replace textarea with p element
+  $(this).replaceWith(taskP);
+  
+
 });
 
 // modal was triggered
