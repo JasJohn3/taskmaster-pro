@@ -123,6 +123,12 @@ $("#trash").droppable({
     console.log("out");
   }
 });
+
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
+
+
 // Task editing textarea comes out of focus
 $(".list-group").on('blur','textarea',function (){
   // get the textarea's current value/text
@@ -162,11 +168,20 @@ $(".list-group").on("click","span",function(){
 
   // Replace the element
   $(this).replaceWith(dateInput);
-
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function() {
+      // when calendar is closed, force a "change" event on the `dateInput`
+      $(this).trigger("change");
+    }
+  });
   // automatically focus on new element
   dateInput.trigger('focus');  
 });
-$(".list-group").on("blur", "input[type='text']", function() {
+
+// Edit the date of an existing task item
+$(".list-group").on("change", "input[type='text']", function() {
   // get current text
   var date = $(this)
     .val()
